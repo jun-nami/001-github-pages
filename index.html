@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>診断アプリ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    .hidden {
+      display: none;
+    }
+    #question-container {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>診断アプリ</h1>
+  <div id="question-container">
+    <p id="question">質問がここに表示されます</p>
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+  <div id="result" class="hidden">
+    <h2>あなたは <span id="type"></span> タイプです！</h2>
+  </div>
+
+  <script>
+    // 質問のリスト
+    const questions = [
+      "質問1: あなたは朝型ですか？",
+      "質問2: あなたは社交的ですか？",
+      "質問3: あなたは計画的ですか？",
+      "質問4: あなたは冒険心がありますか？",
+      "質問5: あなたは感情豊かですか？"
+    ];
+
+    let currentQuestion = 0; // 現在の質問番号
+    let yesCount = 0; // Yes の回答数
+
+    // DOM要素の取得
+    const questionElement = document.getElementById("question");
+    const yesButton = document.getElementById("yes");
+    const noButton = document.getElementById("no");
+
+    // 質問を表示する関数
+    function showQuestion() {
+      if (currentQuestion < questions.length) {
+        questionElement.textContent = questions[currentQuestion];
+      } else {
+        showResult();
+      }
+    }
+
+    // 診断結果を表示する関数
+    function showResult() {
+      document.getElementById("question-container").classList.add("hidden");
+      const resultDiv = document.getElementById("result");
+      let type;
+      // Yesの数に応じたタイプ判定（例）
+      if (yesCount >= 4) {
+        type = "A";
+      } else if (yesCount >= 2) {
+        type = "B";
+      } else {
+        type = "C";
+      }
+      document.getElementById("type").textContent = type;
+      resultDiv.classList.remove("hidden");
+    }
+
+    // Yesボタンのクリックイベント
+    yesButton.addEventListener("click", () => {
+      yesCount++;
+      currentQuestion++;
+      showQuestion();
+    });
+
+    // Noボタンのクリックイベント
+    noButton.addEventListener("click", () => {
+      currentQuestion++;
+      showQuestion();
+    });
+
+    // 初回の質問を表示
+    showQuestion();
+  </script>
+</body>
+</html>
